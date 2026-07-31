@@ -156,9 +156,9 @@ def logout():
     )
 
 
-@app.route("/")
+@app.route("/export/<int:cid>")
 @login_required
-def dashboard():
+def export(cid):
 
     db = con()
 
