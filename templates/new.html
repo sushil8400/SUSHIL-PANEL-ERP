@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>New Costing - SUSHIL PANEL ERP</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            margin: 20px;
+            background: #f4f6f8;
+        }
+
+        h2 {
+            color: #17365d;
+        }
+
+        .top {
+            background: white;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+        }
+
+        input, select {
+            padding: 7px;
+            margin: 4px;
+            border: 1px solid #aaa;
+            border-radius: 4px;
+        }
+
+        table {
+            width: 100%;
+            background: white;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        th, td {
+            border: 1px solid #999;
+            padding: 5px;
+            text-align: center;
+        }
+
+        th {
+            background: #17365d;
+            color: white;
+        }
+
+        button {
+            padding: 9px 14px;
+            border: 0;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        .add {
+            background: #198754;
+            color: white;
+        }
+
+        .save {
+            background: #0d6efd;
+            color: white;
+        }
+
+        .remove {
+            background: #dc3545;
+            color: white;
+        }
+
+        .total {
+            font-size: 20px;
+            font-weight: bold;
+            text-align: right;
+            padding: 15px;
+        }
+    </style>
+</head>
+
+<body>
+
+<h2>SUSHIL PANEL ERP – NEW COSTING</h2>
+
+<form method="POST">
+
+<div class="top">
+
+    <input
+        name="customer"
+        placeholder="Customer Name"
+        required
+    >
+
+    <input
+        name="project"
+        placeholder="Project Name"
+    >
+
+    <input
+        name="panel"
+        placeholder="Panel Name"
+    >
+
+</div>
+
+<table id="costingTable">
+
+<thead>
+
+<tr>
+
+<th>S.No.</th>
+<th>Brand</th>
+<th>Description</th>
+<th>Rating</th>
+<th>Type / Catalogue</th>
+<th>Qty</th>
+<th>LP Price</th>
+<th>Discount %</th>
+<th>Net Price</th>
+<th>Final Price</th>
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+<tbody id="items"></tbody>
+
+</table>
+
+<br>
+
+<button
+type="button"
+class="add"
+onclick="addItem()"
+>
++ ADD ITEM
+</button>
+
+<div class="total">
+
+GRAND TOTAL:
+₹ <span id="grandTotal">0.00</span>
+
+</div>
+
+<button
+type="submit"
+class="save"
+>
+SAVE COSTING
+</button>
+
+<a href="/">
+BACK TO DASHBOARD
+</a>
+
+</form>
+
+<script>
+
+function addItem() {
+
+    let body =
+    document.getElementById("items");
+
+    let row =
+    body.insertRow();
+
+    row.innerHTML = `
+
+<td></td>
+
+<td>
+
+<select name="brand[]">
+
+<option value="LK">
+LK
+</option>
+
+<option value="C&S">
+C&S
+</option>
+
+<option value="OTHER">
+OTHER
+</option>
+
+</select>
+
+</td>
+
+<td>
+
+<input
+name="description[]"
+placeholder="Item Description"
+required
+>
+
+</td>
+
+<td>
+
+<input
+name="rating[]"
+placeholder="Rating"
+>
+
+</td>
+
+<td>
+
+<input
+name="catalogue[]"
+placeholder="Catalogue No."
+>
+
+</td>
+
+<td>
+
+<input
+name="qty[]"
+type="number"
+value="1"
+min="0"
+step="0.01"
+oninput="calculate()"
+>
+
+</td>
+
+<td>
+
+<input
+name="lp[]"
+type="number"
+value="0"
+min="0"
+step="0.01"
+oninput="calculate()"
+>
+
+</td>
+
+<td>
+
+<input
+name="discount[]"
+type="number"
+value="0"
+min="0"
+max="100"
+step="0.01"
+oninput="calculate()"
+>
+
+</td>
+
+<td class="netPrice">
+
+0.00
+
+</td>
+
+<td class="finalPrice">
+
+0.00
+
+</td>
+
+<td>
+
+<button
+type="button"
+class="remove"
+onclick="removeItem(this)"
+>
+
+REMOVE
+
+</button>
+
+</td>
+
+`;
+
+calculate();
+
+}
+
+
+function removeItem(button) {
+
+button
+.closest("tr")
+.remove();
+
+calculate();
+
+}
+
+
+function calculate() {
+
+let rows =
+document.querySelectorAll(
+"#items tr"
+);
+
+let total = 0;
+
+
+rows.forEach(
+
+function(row,index) {
+
+row.cells[0].innerText =
+index + 1;
+
+
+let qty =
+
+parseFloat(
+
+row.querySelector(
+'[name="qty[]"]'
+).value
+
+) || 0;
+
+
+let lp =
+
+parseFloat(
+
+row.querySelector(
+'[name="lp[]"]'
+).value
+
+) || 0;
+
+
+let discount =
+
+parseFloat(
+
+row.querySelector(
+'[name="discount[]"]'
+).value
+
+) || 0;
+
+
+let netPrice =
+
+lp *
+(100 - discount)
+/ 100;
+
+
+let finalPrice =
+
+qty *
+netPrice;
+
+
+row.querySelector(
+".netPrice"
+).innerText =
+
+netPrice.toFixed(2);
+
+
+row.querySelector(
+".finalPrice"
+).innerText =
+
+finalPrice.toFixed(2);
+
+
+total += finalPrice;
+
+}
+
+);
+
+
+document.getElementById(
+"grandTotal"
+).innerText =
+
+total.toFixed(2);
+
+}
+
+
+addItem();
+
+</script>
+
+</body>
+</html>
