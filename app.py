@@ -92,7 +92,7 @@ def init_db():
             "INSERT INTO users(username,password,role) VALUES(?,?,?)",
             (
                 "admin",
-                generate_password_hash("Admin@123"),
+                generate_password_hash("12344321"),
                 "Admin"
             )
         )
@@ -156,7 +156,7 @@ def logout():
     )
 
 
-@app.route("/export/<int:cid>")
+<int:cid>
 @login_required
 def export(cid):
 
