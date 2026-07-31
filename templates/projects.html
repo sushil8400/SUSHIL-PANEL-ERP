@@ -2,218 +2,66 @@
 <html>
 <head>
     <title>Projects - SUSHIL PANEL ERP</title>
-
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            background: #f2f4f7;
-        }
-
-        header {
-            background: #17365d;
-            color: white;
-            padding: 18px 30px;
-        }
-
-        nav {
-            background: white;
-            padding: 14px 30px;
-            box-shadow: 0 2px 5px #ccc;
-        }
-
-        nav a {
-            text-decoration: none;
-            margin-right: 20px;
-            color: #17365d;
-            font-weight: bold;
-        }
-
-        .container {
-            padding: 30px;
-        }
-
-        .box {
-            background: white;
-            padding: 25px;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px #ccc;
-            margin-bottom: 25px;
-        }
-
-        input, select {
-            width: 100%;
-            padding: 10px;
-            margin-top: 6px;
-            margin-bottom: 15px;
-            box-sizing: border-box;
-        }
-
-        button {
-            background: #17365d;
-            color: white;
-            border: none;
-            padding: 11px 22px;
-            cursor: pointer;
-            border-radius: 4px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-        }
-
-        th, td {
-            border: 1px solid #ddd;
-            padding: 11px;
-            text-align: left;
-        }
-
-        th {
-            background: #17365d;
-            color: white;
-        }
+        body{font-family:Arial;margin:30px;background:#f4f6f8}
+        .box{background:white;padding:25px;border-radius:10px}
+        input,select{padding:10px;margin:5px;width:220px}
+        button{padding:10px 20px;background:#1677ff;color:white;border:0}
+        table{width:100%;border-collapse:collapse;margin-top:20px}
+        th,td{padding:10px;border:1px solid #ccc}
+        th{background:#222;color:white}
     </style>
 </head>
-
 <body>
+<div class="box">
+    <h1>Project Management</h1>
+    <a href="/">← Dashboard</a>
 
-<header>
-    <h1>SUSHIL PANEL ERP</h1>
-</header>
+    <h2>Add Project</h2>
 
-<nav>
-    <a href="{{ url_for('dashboard') }}">Dashboard</a>
-    <a href="{{ url_for('customers') }}">Customers</a>
-    <a href="{{ url_for('projects') }}">Projects</a>
-    <a href="{{ url_for('new_costing') }}">New Costing</a>
-    <a href="{{ url_for('costings') }}">Costing List</a>
-    <a href="{{ url_for('logout') }}">Logout</a>
-</nav>
-
-<div class="container">
-
-    <div class="box">
-
-        <h2>Add New Project</h2>
-
-        <form method="POST">
-
-            <label>Customer</label>
-
-            <select name="customer_id" required>
-
-                <option value="">Select Customer</option>
-
-                {% for customer in customers %}
-
-                <option value="{{ customer.id }}">
-                    {{ customer.name }}
-                </option>
-
-                {% endfor %}
-
-            </select>
-
-            <label>Project Name</label>
-
-            <input
-                type="text"
-                name="name"
-                placeholder="Enter project name"
-                required
-            >
-
-            <label>Location</label>
-
-            <input
-                type="text"
-                name="location"
-                placeholder="Enter project location"
-            >
-
-            <label>Status</label>
-
-            <select name="status">
-
-                <option value="Open">Open</option>
-
-                <option value="In Progress">
-                    In Progress
-                </option>
-
-                <option value="Completed">
-                    Completed
-                </option>
-
-                <option value="On Hold">
-                    On Hold
-                </option>
-
-            </select>
-
-            <button type="submit">
-                Save Project
-            </button>
-
-        </form>
-
-    </div>
-
-    <div class="box">
-
-        <h2>Project List</h2>
-
-        <table>
-
-            <tr>
-                <th>ID</th>
-                <th>Customer</th>
-                <th>Project</th>
-                <th>Location</th>
-                <th>Status</th>
-            </tr>
-
-            {% for project in rows %}
-
-            <tr>
-
-                <td>{{ project.id }}</td>
-
-                <td>
-                    {{ project.customer or "-" }}
-                </td>
-
-                <td>{{ project.name }}</td>
-
-                <td>
-                    {{ project.location or "-" }}
-                </td>
-
-                <td>
-                    {{ project.status or "-" }}
-                </td>
-
-            </tr>
-
-            {% else %}
-
-            <tr>
-
-                <td colspan="5">
-                    No projects available
-                </td>
-
-            </tr>
-
+    <form method="POST">
+        <select name="customer_id" required>
+            <option value="">Select Customer</option>
+            {% for customer in customers %}
+            <option value="{{ customer.id }}">
+                {{ customer.name }}
+            </option>
             {% endfor %}
+        </select>
 
-        </table>
+        <input name="name" placeholder="Project Name" required>
+        <input name="location" placeholder="Project Location">
 
-    </div>
+        <select name="status">
+            <option value="New">New</option>
+            <option value="Running">Running</option>
+            <option value="Completed">Completed</option>
+        </select>
 
+        <button type="submit">Save Project</button>
+    </form>
+
+    <h2>Project List</h2>
+
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Customer</th>
+            <th>Project</th>
+            <th>Location</th>
+            <th>Status</th>
+        </tr>
+
+        {% for row in rows %}
+        <tr>
+            <td>{{ row.id }}</td>
+            <td>{{ row.customer }}</td>
+            <td>{{ row.name }}</td>
+            <td>{{ row.location }}</td>
+            <td>{{ row.status }}</td>
+        </tr>
+        {% endfor %}
+    </table>
 </div>
-
 </body>
 </html>
