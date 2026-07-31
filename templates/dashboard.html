@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SUSHIL PANEL ERP - Dashboard</title>
+    <style>
+        body{
+            font-family:Arial,sans-serif;
+            background:#f2f4f7;
+            margin:0;
+        }
+        header{
+            background:#17365d;
+            color:white;
+            padding:18px 30px;
+        }
+        nav{
+            background:white;
+            padding:14px 30px;
+            box-shadow:0 2px 5px #ccc;
+        }
+        nav a{
+            text-decoration:none;
+            margin-right:22px;
+            color:#17365d;
+            font-weight:bold;
+        }
+        .container{
+            padding:30px;
+        }
+        .cards{
+            display:flex;
+            gap:20px;
+            flex-wrap:wrap;
+        }
+        .card{
+            background:white;
+            width:220px;
+            padding:22px;
+            border-radius:8px;
+            box-shadow:0 2px 8px #ccc;
+        }
+        .number{
+            font-size:32px;
+            color:#17365d;
+            font-weight:bold;
+        }
+        table{
+            width:100%;
+            background:white;
+            border-collapse:collapse;
+            margin-top:25px;
+        }
+        th,td{
+            padding:12px;
+            border:1px solid #ddd;
+            text-align:left;
+        }
+        th{
+            background:#17365d;
+            color:white;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>SUSHIL PANEL ERP</h1>
+</header>
+
+<nav>
+    <a href="{{ url_for('dashboard') }}">Dashboard</a>
+    <a href="{{ url_for('customers') }}">Customers</a>
+    <a href="{{ url_for('projects') }}">Projects</a>
+    <a href="{{ url_for('new_costing') }}">New Costing</a>
+    <a href="{{ url_for('costings') }}">Costing List</a>
+    <a href="{{ url_for('logout') }}">Logout</a>
+</nav>
+
+<div class="container">
+
+    <h2>Dashboard</h2>
+
+    <div class="cards">
+
+        <div class="card">
+            <h3>Total Customers</h3>
+            <div class="number">{{ stats.customers }}</div>
+        </div>
+
+        <div class="card">
+            <h3>Total Projects</h3>
+            <div class="number">{{ stats.projects }}</div>
+        </div>
+
+        <div class="card">
+            <h3>Total Costings</h3>
+            <div class="number">{{ stats.costings }}</div>
+        </div>
+
+    </div>
+
+    <h2>Recent Costings</h2>
+
+    <table>
+        <tr>
+            <th>Costing No.</th>
+            <th>Customer</th>
+            <th>Project</th>
+            <th>Panel</th>
+            <th>Final Amount</th>
+        </tr>
+
+        {% for item in recent %}
+        <tr>
+            <td>{{ item.number }}</td>
+            <td>{{ item.customer }}</td>
+            <td>{{ item.project }}</td>
+            <td>{{ item.panel }}</td>
+            <td>₹ {{ item.final }}</td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="5">No costing available</td>
+        </tr>
+        {% endfor %}
+
+    </table>
+
+</div>
+
+</body>
+</html>
