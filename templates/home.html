@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SUSHIL PANEL ERP</title>
+</head>
+<body>
+
+<h2>SUSHIL PANEL ERP</h2>
+
+<a href="/new">+ NEW COSTING</a>
+&nbsp; | &nbsp;
+<a href="/logout">Logout</a>
+
+<br><br>
+
+<table border="1" cellpadding="8">
+    <tr>
+        <th>ID</th>
+        <th>Customer</th>
+        <th>Project</th>
+        <th>Panel</th>
+        <th>Grand Total</th>
+    </tr>
+
+    {% for r in rows %}
+    <tr>
+        <td>{{ r.id }}</td>
+        <td>{{ r.customer }}</td>
+        <td>{{ r.project }}</td>
+        <td>{{ r.panel }}</td>
+        <td>₹ {{ r.total }}</td>
+    </tr>
+    {% endfor %}
+
+</table>
+
+</body>
+</html>
